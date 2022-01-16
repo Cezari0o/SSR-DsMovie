@@ -36,7 +36,7 @@ function getFills(score: number) {
 function Star( {fill} : StarProps) {
 
     return (
-        fill == 1? <StarFull/> : (fill == 0? <StarEmpty/> : <StarHalf/>)
+        fill === 1? <StarFull/> : (fill === 0? <StarEmpty/> : <StarHalf/>)
     );
 }
 
