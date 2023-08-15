@@ -1,9 +1,9 @@
-FROM node:14.16.0-alpine3.13
+FROM node:18-alpine
 
 # ENV PORT=3000
 
-RUN addgroup app && adduser -S -G app app
-USER app
+# RUN addgroup app && adduser -S -G app app
+# USER app
 
 WORKDIR /app
 COPY package*.json .
@@ -12,5 +12,4 @@ COPY . .
 
 EXPOSE 3000
 
-# WORKDIR /app
 CMD ["npm", "start"]

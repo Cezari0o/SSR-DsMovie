@@ -1,13 +1,33 @@
 version: "3.8"
 
 services:
-  frontend:
-    container_name: frontend
-    # volumes:
-    #   - ./frontend:/app
-    build: ./frontend
+  web:
+    # build: ./frontend
+    image: node:18-alpine
+    container_name: web
+    expose:
+      - 8080
     ports:
       - 8080:3000
+    volumes:
+      - ./frontend:/app
+    command: sh -c "cd /app && npm install && npm start"
+      # - /app/node_modules
+    networks:
+      - app_network
+
+  api:
+    # build: ./backend
+    image: node:18-alpine
+    container_name: api
+    expose:
+      - 8081
+    ports:
+      - 8081:3000
+    volumes:
+      - ./backend:/app
+    command: sh -c "cd /app && npm install && npm run dev"
+      # - /app/node_modules
     networks:
       - app_network
 
