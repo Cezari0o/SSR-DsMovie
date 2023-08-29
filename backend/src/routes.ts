@@ -1,6 +1,6 @@
 import express from 'express';
 import { StatusCodes } from 'http-status-codes';
-import movies from './movies/routes';
+import movies from './controllers/movie';
 import scores from './score/routes';
 
 const router = express.Router();

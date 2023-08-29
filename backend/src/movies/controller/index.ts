@@ -8,10 +8,8 @@ export function getMovieInfo(req: Request, done: Callback<Movie>) {
   const { id } = req.params;
 
   const movieTest: Movie = {
-    count: 20,
     id: Number(id),
     image: 'https://cdn.mobygames.com/covers/6198391-kingdom-hearts-ii-playstation-2-front-cover.jpg',
-    score: 5,
     title: 'Kingdom Hearts II'
   }
 
