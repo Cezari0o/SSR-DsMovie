@@ -31,6 +31,21 @@ services:
     networks:
       - app_network
 
+  db:
+    container_name: db
+    image: postgres:latest
+    restart: always
+    ports:
+      - 8082:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: p123456
+      POSTGRES_DB: default_database
+    volumes:
+      - ./db-data/:/var/lib/postgresql/data/
+    networks:
+      - app_network
+
 networks:
   app_network:
     driver: bridge
