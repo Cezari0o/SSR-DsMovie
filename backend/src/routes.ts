@@ -1,7 +1,7 @@
 import express from 'express';
 import { StatusCodes } from 'http-status-codes';
 import movies from './controllers/movie';
-import scores from './score/routes';
+import scores from './controllers/score';
 
 const router = express.Router();
 
