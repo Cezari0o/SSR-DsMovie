@@ -38,7 +38,7 @@ movies.get('/',
       optional: true,
     },
     sort: {
-      isBoolean: true,
+      isBoolean: false,
       escape: true,
       optional: true,
     }
