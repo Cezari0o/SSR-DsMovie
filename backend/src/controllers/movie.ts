@@ -1,47 +1,62 @@
-import express from "express"
+import express, { query } from "express"
 import { StatusCodes } from 'http-status-codes';
 import MovieService from "../services/MovieService";
 import MoviePrismaRepository from "../repos/implementation/MoviePrismaRepo";
+import { checkSchema, matchedData, param, validationResult } from "express-validator";
+import validationMiddleware from "../util/validationMiddleware";
 
 const movies = express.Router();
 const service = new MovieService(new MoviePrismaRepository);
 
-movies.get('/:id', (req, res) => {
+movies.get('/:id',
+  param('id').isInt(),
+  validationMiddleware(),
+  (req, res) => {
+    const { id } = matchedData(req);
+    const convertedId = Number(id);
 
-  const { id } = req.params;
-  const convertedId = Number(id);
+    service.findMovie(convertedId, (err, movie) => {
 
-  if (isNaN(convertedId) || convertedId <= 0) {
-    res.json({ error: true, message: 'Invalid movie id!' });
-    return;
-  }
+      if (err) {
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: true, message: `Error while retrieving movie info! ${err.message}` });
+        return;
+      }
 
-  service.findMovie(convertedId, (err, movie) => {
+      res.status(StatusCodes.OK).json(movie);
+    });
 
-    if (err) {
-      res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: true, message: `Error while retrieving movie info! ${err.message}` });
-      return;
-    }
-
-    res.status(StatusCodes.OK).json(movie);
   });
 
-});
-
-movies.get('/', (req, res) => {
-
-  // TODO: validar parametros  
-  const { size, page, sort } = req.query;
-
-  service.findAllMovies(null, (err, page) => {
-
-    if (err) {
-      res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: true, message: `Not possible to get movies! ${err.message}` });
-      return;
+movies.get('/',
+  checkSchema({
+    size: {
+      isInt: true,
+      optional: true,
+    },
+    page: {
+      isInt: true,
+      optional: true,
+    },
+    sort: {
+      isBoolean: true,
+      escape: true,
+      optional: true,
     }
+  }, ['query']),
+  validationMiddleware(),
+  (req: express.Request, res: express.Response) => {
 
-    res.status(StatusCodes.OK).json(page);
+    const { size, page, sort } = req.query;
+
+    service.findAllMovies(null, (err, page) => {
+
+      if (err) {
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: true, message: `Not possible to get movies! ${err.message}` });
+        return;
+      }
+
+      res.status(StatusCodes.OK).json(page);
+    })
   })
-})
 
 export default movies;
