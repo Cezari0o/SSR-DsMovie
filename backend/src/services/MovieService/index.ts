@@ -2,6 +2,7 @@ import MovieRepo from "../../repos/movieRepo";
 import Callback from "../../types/callbackFn";
 import Movie from "../../types/movie";
 import MoviePage from "../../types/moviePage";
+import PageParams from "../../types/pageParams";
 
 export default class MovieService {
 
@@ -16,28 +17,42 @@ export default class MovieService {
     });
   }
 
-  findAllMovies(params: { title?: string, } | undefined | null, done: Callback<MoviePage>) {
+  findAllMovies(params: undefined | null | PageParams, done: Callback<MoviePage>) {
+
+    let pageInfo: PageParams = { page: 1, size: 12 };
+
+    if (params) {
+      pageInfo = {
+        page: params.page ? Number(params.page) : 1,
+        size: params.size ? Number(params.size) : 12,
+        sort: params.sort ? params.sort : undefined,
+      };
+    }
 
     this.MovieRepo.findAll()
-    .then(movies => {
-      // TODO: ajustar pagina
-      const page: MoviePage = {
-        content: movies,
-        empty: movies.length === 0,
-        first: false, // ajustar
-        last: false, // ajustar
-        number: 0, // ajustar
-        numberOfElements: movies.length,
-        size: movies.length, // ajustar
-        totalElements: movies.length, // ajustar
-        totalPages: movies.length, // ajustar
-      };
+      .then(movies => {
 
-      done(null, page);
-    })
-    .catch(err => {
-      done(err, null);
-    })
+
+        const { page, size, sort } = pageInfo;
+        const totalPages = Math.ceil(movies.length / size);
+
+        const toReturn: MoviePage = {
+          content: movies.slice((page - 1) * size, page * size),
+          empty: movies.length === 0,
+          first: page === 1,
+          last: page === totalPages,
+          number: page,
+          numberOfElements: movies.length,
+          size: size,
+          totalElements: movies.length,
+          totalPages: totalPages,
+        };
+
+        done(null, toReturn);
+      })
+      .catch(err => {
+        done(err, null);
+      })
 
   }
 }

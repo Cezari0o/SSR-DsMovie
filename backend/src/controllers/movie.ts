@@ -46,9 +46,7 @@ movies.get('/',
   validationMiddleware(),
   (req: express.Request, res: express.Response) => {
 
-    const { size, page, sort } = req.query;
-
-    service.findAllMovies(null, (err, page) => {
+    service.findAllMovies({ ...matchedData(req) }, (err, page) => {
 
       if (err) {
         res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: true, message: `Not possible to get movies! ${err.message}` });
