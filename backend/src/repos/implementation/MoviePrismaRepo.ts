@@ -1,6 +1,7 @@
-import MovieRepo from "../movieRepo";
+import MovieRepo, { MovieParams } from "../movieRepo";
 import Movie from "../../types/movie";
 import prisma from "../prisma";
+import { Prisma } from "@prisma/client";
 
 export default class MoviePrismaRepository implements MovieRepo {
 
@@ -14,9 +15,18 @@ export default class MoviePrismaRepository implements MovieRepo {
     return movie;
   }
 
-  findAll = async () => {
-    const movies = await prisma.movie.findMany();
-    
+  findAll = async (params?: MovieParams) => {
+
+    const { title } = params ? params : { title: undefined };
+    const movies = await prisma.movie.findMany({
+      where: {
+        title: { mode: "insensitive", contains: title }
+      },
+      orderBy: {
+        title: 'asc'
+      }
+    })
+
     return movies;
   };
 

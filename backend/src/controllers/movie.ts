@@ -41,12 +41,19 @@ movies.get('/',
       isBoolean: false,
       escape: true,
       optional: true,
+    },
+    search: {
+      isString: true,
+      escape: true,
+      optional: true,
     }
   }, ['query']),
   validationMiddleware(),
   (req: express.Request, res: express.Response) => {
 
-    service.findAllMovies({ ...matchedData(req) }, (err, page) => {
+    const { size, page, sort, search } = matchedData(req);
+
+    service.findAllMovies({ size, page, search, sort }, (err, page) => {
 
       if (err) {
         res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: true, message: `Not possible to get movies! ${err.message}` });

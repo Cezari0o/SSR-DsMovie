@@ -14,4 +14,9 @@ export default interface PageParams {
    * Chave do item pela qual ordenamento deve ser feito
    */
   sort?: string;
+
+  /**
+   * Campo de busca
+   */
+  search?: string;
 }

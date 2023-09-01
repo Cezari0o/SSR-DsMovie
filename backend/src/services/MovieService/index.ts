@@ -25,15 +25,15 @@ export default class MovieService {
       pageInfo = {
         page: params.page ? Number(params.page) : 1,
         size: params.size ? Number(params.size) : 12,
-        sort: params.sort ? params.sort : undefined,
+        sort: params.sort,
+        search: params.search,
       };
     }
 
-    this.MovieRepo.findAll()
+    this.MovieRepo.findAll({ title: pageInfo.search })
       .then(movies => {
 
-
-        const { page, size, sort } = pageInfo;
+        const { page, size } = pageInfo;
         const totalPages = Math.ceil(movies.length / size);
 
         const toReturn: MoviePage = {
