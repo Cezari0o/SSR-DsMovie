@@ -1,11 +1,11 @@
 interface Score {
-  id: number;
+  id?: number;
   count: number;
   movieId: number;
   userId: number;
 
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export default Score;

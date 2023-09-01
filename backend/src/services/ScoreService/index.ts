@@ -11,7 +11,7 @@ export default class ScoreService {
     private userRepo: UserRepo,
     private movieRepo: MovieRepo) { }
 
-  async saveScore(score: Score, done: Callback<Score>) {
+  async saveScore(score: { count: number, movieId: number, userId: number}, done: Callback<Score>) {
     try {
       await this.movieRepo.findById(score.movieId);
       await this.userRepo.findById(score.userId);

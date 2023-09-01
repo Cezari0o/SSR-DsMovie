@@ -2,6 +2,7 @@ import express from 'express';
 import { StatusCodes } from 'http-status-codes';
 import movies from './controllers/movie';
 import scores from './controllers/score';
+import user from './controllers/user';
 
 const router = express.Router();
 
@@ -11,5 +12,6 @@ router.get('/', (req, res) => {
 
 router.use('/movies', movies);
 router.use('/scores', scores);
+router.use('/user', user);
 
 export default router;
