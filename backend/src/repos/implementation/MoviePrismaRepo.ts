@@ -1,18 +1,30 @@
 import MovieRepo, { MovieParams } from "../movieRepo";
 import Movie from "../../types/movie";
 import prisma from "../prisma";
-import { Prisma } from "@prisma/client";
+import Score from "../../types/score";
 
 export default class MoviePrismaRepository implements MovieRepo {
+
+  private sumScores(scores: Score[]): { score: number, count: number } {
+    const score = scores.reduce((prev, current) => {
+      return current.count / scores.length + prev;
+    }, 0);
+
+    return { score: score, count: scores.length };
+  }
 
   findById = async (id: number) => {
     const movie = await prisma.movie.findUniqueOrThrow({
       where: {
         id: id
+      },
+      include: {
+        scores: true,
       }
     });
 
-    return movie;
+    const toReturn = { ...movie, scores: undefined, ...this.sumScores(movie.scores) };
+    return toReturn;
   }
 
   findAll = async (params?: MovieParams) => {
@@ -22,12 +34,20 @@ export default class MoviePrismaRepository implements MovieRepo {
       where: {
         title: { mode: "insensitive", contains: title }
       },
+
+      include: {
+        scores: true,
+      },
       orderBy: {
         title: 'asc'
       }
+    });
+
+    const toReturn = movies.map(m => {
+      return { ...m, ...this.sumScores(m.scores), scores: undefined };
     })
 
-    return movies;
+    return toReturn;
   };
 
   save = async (item: Movie) => {
