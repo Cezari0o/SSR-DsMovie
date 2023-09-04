@@ -15,4 +15,9 @@ export default class ScorePrismaRepository implements ScoreRepo {
   findById = async (id: number) => {
     return prisma.score.findFirstOrThrow({ where: { id: id } })
   }
+
+  findAllByMovieId = async (movieId: number) => {
+
+    return prisma.score.findMany({ where: { movieId: movieId } });
+  };
 }

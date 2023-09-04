@@ -5,6 +5,6 @@ export default interface ScoreRepo {
   findAll: () => Promise<Score[]>;
   save: (score: Score) => Promise<Score>;
 
-  findAllByMovieId?: (movieId: number) => Promise<Score[]>;  
+  findAllByMovieId: (movieId: number) => Promise<Score[]>;  
   findAllByUserId?: (userId: number) => Promise<Score[]>;
 }
