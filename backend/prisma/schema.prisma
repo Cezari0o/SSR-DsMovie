@@ -31,11 +31,11 @@ model Score {
 }
 
 model User {
-  id       Int     @id @default(autoincrement())
-  email    String  @unique
-  name     String
-  password String
-  scores   Score[]
+  id           Int     @id @default(autoincrement())
+  email        String  @unique
+  name         String
+  passwordHash String
+  scores       Score[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

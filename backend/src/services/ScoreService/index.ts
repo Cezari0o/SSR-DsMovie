@@ -28,7 +28,6 @@ export default class ScoreService {
   async findAllByMovie(movieInfo: { id: number, page?: number, size?: number }, done: Callback<Pagination<Score>>) {
 
     try {
-
       const scores = await this.scoreRepo.findAllByMovieId(movieInfo.id);
       const page = new Pagination(scores, movieInfo.page, movieInfo.size);
 

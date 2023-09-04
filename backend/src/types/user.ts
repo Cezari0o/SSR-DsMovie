@@ -4,6 +4,8 @@ interface User {
   name: String;
   email: String;
 
+  passwordHash?: string;
+
   createdAt: Date;
   updatedAt: Date;
 }

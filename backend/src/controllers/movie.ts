@@ -1,8 +1,8 @@
-import express, { query } from "express"
+import express from "express"
 import { StatusCodes } from 'http-status-codes';
 import MovieService from "../services/MovieService";
 import MoviePrismaRepository from "../repos/implementation/MoviePrismaRepo";
-import { checkSchema, matchedData, param, validationResult } from "express-validator";
+import { checkSchema, matchedData, param } from "express-validator";
 import validationMiddleware from "../util/validationMiddleware";
 import ScoreService from "../services/ScoreService";
 import ScorePrismaRepository from "../repos/implementation/ScorePrismaRepo";
