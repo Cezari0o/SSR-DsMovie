@@ -33,7 +33,8 @@ auth.post('/login',
         return;
       }
 
-      res.status(StatusCodes.OK).send(jwtToken);
+      res.setHeader('Authorization', `Bearer ${jwtToken}`);
+      res.status(StatusCodes.OK).send();
     });
 
   });
