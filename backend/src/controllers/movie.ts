@@ -69,11 +69,8 @@ movies.get('/',
   })
 
 movies.get('/:id/scores',
+  param('id').isInt().escape(),
   checkSchema({
-    id: {
-      isInt: true,
-      escape: true,
-    },
     size: {
       isInt: true,
       optional: true,
@@ -97,7 +94,7 @@ movies.get('/:id/scores',
       }
 
     }
-  }, ['params', 'query']),
+  }, ['query']),
   validationMiddleware(),
   (req: express.Request, res: express.Response) => {
 
