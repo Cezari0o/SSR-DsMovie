@@ -1,6 +1,5 @@
 import express, { Application } from 'express';
 import dotenv from 'dotenv';
-import { teste } from "./src/teste/controller";
 import router from './src/routes';
 import cors from 'cors';
 import { StatusCodes } from 'http-status-codes';
