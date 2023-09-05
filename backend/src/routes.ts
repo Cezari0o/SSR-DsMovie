@@ -17,7 +17,7 @@ router.use('/user', user);
 router.use('/auth', auth);
 
 router.use((req, res) => {
-  return res.status(StatusCodes.NOT_FOUND).json({ error: true, message: 'Route/resource not found!' });
+  return res.status(StatusCodes.NOT_FOUND).json({ error: true, message: 'Resource not found!' });
 })
 
 export default router;

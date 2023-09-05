@@ -4,6 +4,7 @@ import UserRepo from "../../repos/userRepo";
 import { sign } from "jsonwebtoken";
 import { Token } from "typescript";
 import { readFileSync } from "fs";
+import readServerKey from "../../util/readKey";
 
 export default class AuthService {
 
@@ -30,8 +31,7 @@ export default class AuthService {
         throw new Error('No user was found with the guiven data!');
       }
 
-      const privateKey = readFileSync('privatekey.pem', { encoding: 'utf-8' });
-      const userToken = sign({ id: user.id, }, privateKey, { algorithm: "RS512", expiresIn: '30m', });
+      const userToken = sign({ id: user.id, }, readServerKey(), { algorithm: "RS512", expiresIn: '30m', });
 
       done(null, userToken);
     } catch (err) {
