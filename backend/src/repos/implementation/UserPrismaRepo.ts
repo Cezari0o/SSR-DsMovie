@@ -21,7 +21,7 @@ export default class UserPrismaRepository implements UserRepo {
     return prisma.user.findFirst({ where: { email: { equals: email } } });
   }
 
-  save = async (user: { name: string; email: string; password: string; }) => {
+  save = async (user: { name: string; email: string; passwordHash: string; }) => {
     const newUser = await prisma.user.create({
       data: {
         ...user

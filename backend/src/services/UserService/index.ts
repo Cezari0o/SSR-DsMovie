@@ -15,7 +15,7 @@ export default class UserService {
 
     try {
       const passwordHash = await argon2.hash(password, { type: argon2.argon2i, timeCost: 5, secret: Buffer.from(process.env.PEPPER || '') });
-      const { createdAt, email, id, name, updatedAt } = await this.userRepo.save({ name: name1, email: email1, password: passwordHash });
+      const { createdAt, email, id, name, updatedAt } = await this.userRepo.save({ name: name1, email: email1, passwordHash: passwordHash });
 
       done(null, { id, name, email, createdAt, updatedAt });
     } catch (err) {
@@ -45,10 +45,6 @@ export default class UserService {
       } else {
         user = await this.userRepo.findById(id as number);
         key = 'id';
-      }
-
-      if (!user) {
-        throw new Error(`No user with the given ${key}!`);
       }
 
       done(null, user);
