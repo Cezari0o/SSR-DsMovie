@@ -13,8 +13,8 @@ router.get('/', (req, res) => {
 
 router.use('/movies', movies);
 router.use('/scores', scores);
-router.use('/user', user);
-router.use('/auth', auth);
+// router.use('/user', user);
+// router.use('/auth', auth);
 
 router.use((req, res) => {
   return res.status(StatusCodes.NOT_FOUND).json({ error: true, message: 'Resource not found!' });
