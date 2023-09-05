@@ -17,7 +17,18 @@ export default class ScoreService {
       await this.movieRepo.findById(score.movieId);
       await this.userRepo.findById(score.userId);
 
-      const savedScore = await this.scoreRepo.save(score);
+      const scores = await this.scoreRepo.findAll({ userId: score.userId, movieId: score.movieId });
+
+      let savedScore;
+      if (scores.length) {
+        savedScore = scores.at(0) as Score;
+
+        savedScore.count = score.count;
+
+        savedScore = await this.scoreRepo.update(savedScore.id as number, savedScore);
+      } else {
+        savedScore = await this.scoreRepo.save(score);
+      }
 
       done(null, savedScore);
     } catch (err) {

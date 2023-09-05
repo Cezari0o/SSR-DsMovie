@@ -8,8 +8,8 @@ export default class ScorePrismaRepository implements ScoreRepo {
     return await prisma.score.create({ data: score, });
   }
 
-  findAll = async () => {
-    return prisma.score.findMany();
+  findAll = async (params?: { movieId?: number, userId?: number }) => {
+    return prisma.score.findMany({ where: { userId: params?.userId, movieId: params?.movieId } });
   }
 
   findById = async (id: number) => {
@@ -19,5 +19,10 @@ export default class ScorePrismaRepository implements ScoreRepo {
   findAllByMovieId = async (movieId: number) => {
 
     return prisma.score.findMany({ where: { movieId: movieId } });
+  }
+  
+  update = async (scoreId: number, score: Score & { id?: number | undefined; }) => {
+
+    return prisma.score.update({ where: { id: scoreId }, data: score });
   };
 }
