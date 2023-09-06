@@ -100,10 +100,11 @@
   },
   "exclude": [
     "node_modules",
-    "dist"
+    "dist",
+    "prisma"
   ],
   "include": [
-    "src/**/*"
+    "./**/*"
   ],
   "ts-node": {
     "swc": true
