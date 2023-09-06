@@ -11,6 +11,15 @@ router.get('/', (req, res) => {
   res.status(StatusCodes.OK).send(`DSMovie API v${process.env.npm_package_version}`)
 });
 
+router.get('/badge-status', (req, res) => {
+  res.status(StatusCodes.OK).json({
+    schemaVersion: 1,
+    label: '',
+    message: 'passing',
+    color: 'success'
+  });
+});
+
 router.use('/movies', movies);
 router.use('/scores', scores);
 // router.use('/user', user);
